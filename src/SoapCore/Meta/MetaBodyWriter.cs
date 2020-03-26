@@ -605,18 +605,18 @@ namespace SoapCore.Meta
 
 				writer.WriteStartElement(soap, "operation", soapNamespace);
 				writer.WriteAttributeString("soapAction", operation.SoapAction);
-				writer.WriteAttributeString("style", "document");
+				writer.WriteAttributeString("style", operation.Style.ToString().ToLower());
 				writer.WriteEndElement(); // soap:operation
 
 				writer.WriteStartElement("wsdl", "input", Namespaces.WSDL_NS);
 				writer.WriteStartElement(soap, "body", soapNamespace);
-				writer.WriteAttributeString("use", "literal");
+				writer.WriteAttributeString("use", operation.Use.ToString().ToLower());
 				writer.WriteEndElement(); // soap:body
 				writer.WriteEndElement(); // wsdl:input
 
 				writer.WriteStartElement("wsdl", "output", Namespaces.WSDL_NS);
 				writer.WriteStartElement(soap, "body", soapNamespace);
-				writer.WriteAttributeString("use", "literal");
+				writer.WriteAttributeString("use", operation.Use.ToString().ToLower());
 				writer.WriteEndElement(); // soap:body
 				writer.WriteEndElement(); // wsdl:output
 

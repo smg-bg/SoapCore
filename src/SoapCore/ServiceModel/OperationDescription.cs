@@ -45,6 +45,11 @@ namespace SoapCore.ServiceModel
 					.FirstOrDefault(ca =>
 						ca.AttributeType == typeof(MessageContractAttribute)) != null;
 
+			var serializerFormatAttribute = DispatchMethod.GetCustomAttribute<XmlSerializerFormatAttribute>();
+			Style = serializerFormatAttribute?.Style ?? OperationFormatStyle.Document;
+			SupportFaults = serializerFormatAttribute?.SupportFaults ?? true;
+			Use = serializerFormatAttribute?.Use ?? OperationFormatUse.Literal;
+
 			var elementAttribute = operationMethod.ReturnParameter.GetCustomAttribute<XmlElementAttribute>();
 			ReturnName = operationMethod.ReturnParameter.GetCustomAttribute<MessageParameterAttribute>()?.Name ?? Name + "Result";
 			ReturnElementName = elementAttribute?.ElementName;
@@ -63,6 +68,9 @@ namespace SoapCore.ServiceModel
 		public string SoapAction { get; private set; }
 		public string ReplyAction { get; private set; }
 		public string Name { get; private set; }
+		public OperationFormatStyle Style { get; private set; }
+		public bool SupportFaults { get; private set; }
+		public OperationFormatUse Use { get; private set; }
 		public MethodInfo DispatchMethod { get; private set; }
 		public bool IsOneWay { get; private set; }
 		public bool IsMessageContractResponse { get; private set; }

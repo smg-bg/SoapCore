@@ -241,7 +241,7 @@ namespace SoapCore
 							else
 							{
 								//https://github.com/DigDes/SoapCore/issues/385
-								if (_operation.DispatchMethod.GetCustomAttribute<XmlSerializerFormatAttribute>()?.Style == OperationFormatStyle.Rpc)
+								if (_operation.Style == OperationFormatStyle.Rpc)
 								{
 									var importer = new SoapReflectionImporter(_serviceNamespace);
 									var typeMapping = importer.ImportTypeMapping(resultType);
@@ -249,8 +249,10 @@ namespace SoapCore
 									accessor?.GetType().GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.SetValue(accessor, xmlName);
 									new XmlSerializer(typeMapping).Serialize(writer, _result);
 								}
-
-								serializer.Serialize(writer, _result);
+								else
+								{
+									serializer.Serialize(writer, _result);
+								}
 							}
 						}
 					}
