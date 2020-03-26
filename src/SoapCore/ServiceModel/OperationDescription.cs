@@ -88,10 +88,11 @@ namespace SoapCore.ServiceModel
 			var elementAttribute = info.GetCustomAttribute<XmlElementAttribute>();
 			var arrayAttribute = info.GetCustomAttribute<XmlArrayAttribute>();
 			var arrayItemAttribute = info.GetCustomAttribute<XmlArrayItemAttribute>();
+			var contractAttribute = info.ParameterType.GetCustomAttribute<MessageContractAttribute>();
 			var parameterName = elementAttribute?.ElementName
 				?? arrayAttribute?.ElementName
 				?? info.GetCustomAttribute<MessageParameterAttribute>()?.Name
-				?? info.ParameterType.GetCustomAttribute<MessageContractAttribute>()?.WrapperName
+				?? contractAttribute?.WrapperName
 				?? info.Name;
 			var arrayName = arrayAttribute?.ElementName;
 			var arrayItemName = arrayItemAttribute?.ElementName;
@@ -99,6 +100,7 @@ namespace SoapCore.ServiceModel
 				? string.Empty
 				: elementAttribute?.Namespace
 				?? arrayAttribute?.Namespace
+				?? contractAttribute?.WrapperNamespace
 				?? contract.Namespace;
 			var dataContractAttribute = info.ParameterType.GetCustomAttribute<DataContractAttribute>();
 			if (dataContractAttribute != null && dataContractAttribute.IsNamespaceSetExplicitly && !string.IsNullOrWhiteSpace(dataContractAttribute.Namespace))
