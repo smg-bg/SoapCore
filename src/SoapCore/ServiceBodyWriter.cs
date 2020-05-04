@@ -243,7 +243,7 @@ namespace SoapCore
 								//https://github.com/DigDes/SoapCore/issues/385
 								if (_operation.Style == OperationFormatStyle.Rpc)
 								{
-									var importer = new SoapReflectionImporter(_serviceNamespace);
+									var importer = new SoapReflectionImporter(xmlNs);
 									var typeMapping = importer.ImportTypeMapping(resultType);
 									var accessor = typeMapping.GetType().GetProperty("Accessor", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.GetValue(typeMapping);
 									accessor?.GetType().GetProperty("Name", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic)?.SetValue(accessor, xmlName);
